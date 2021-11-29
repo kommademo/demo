@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			body,html{
+				margin:0;padding:0;background-color:#000;
+			}
+			.appContainer{
+				width:250px;height:541px;background-color:#fff;margin:auto; overflow-y:auto;
+			}
+			.header{
+				top:0;left:0;right:0;height:20px;color:#fff;padding:20px 0 20px 20px;background-color:#666;
+			}
+			.profileWrapper{
+				margin: 10px;
+			}
+			.profileImage{
+				width:50px;height:50px;background-color:#333;display:inline-block;
+			}
+			.profileText{
+				display:inline-block;
+			}
+			.displayUserDiv{
+				margin:0 30px;
+			}
+			.textBubbleWrapper{
+				width:100%; height:60px;
+			}
+			.textBubble{
+				/* background-color: #ccc; margin: 10px; padding: 10px; max-width: 60%; */
+				margin: 10px; padding: 10px; max-width: 60%; border-radius: 10px;border: solid #000 1px; 
+			}
+			.textBubbleStyle2{
+				/* border: solid #000 1px; margin: 10px; padding: 10px; max-width: 60%; */
+				border: solid #000 1px; margin: 10px; padding: 10px; max-width: 60%; border-radius: 10px;
+			}
+			.selected{
+				background-color: #ccc;
+			}
+			.textBubbleWrapper .left{
+				float:left;
+			}
+			.textBubbleWrapper .right{
+				float:right;
+			}
+			
+			.questionBubbleWrapper{
+				width:100%;
+			}
+			.questionBubble{
+				/* background-color: #ccc; margin: 10px; padding: 10px; */
+				margin: 10px; padding: 10px;border: 1px solid #000;border-radius: 10px;
+			}
+			
+			
+			
+			
+			/* width */
+			::-webkit-scrollbar {
+			  width: 10px;
+			}
+
+			/* Track */
+			::-webkit-scrollbar-track {
+			  background: #f1f1f1; 
+			}
+			 
+			/* Handle */
+			::-webkit-scrollbar-thumb {
+			  background: #888; 
+			}
+
+			/* Handle on hover */
+			::-webkit-scrollbar-thumb:hover {
+			  background: #555; 
+			}
+		</style>
+	</head>
+	<body>
+	<div style="position:fixed;width:200px;height:280px;bottom:10px;right:10px; background-color:#fff">
+	Show Notification
+	<div class="questionBubbleWrapper"><div class="questionBubble" onclick="showNotification(1);">1: Invitation to Chat</div></div>
+	<div class="questionBubbleWrapper"><div class="questionBubble" onclick="showNotification(2);">2: Your question has reply</div></div>
+	<div class="questionBubbleWrapper"><div class="questionBubble" onclick="showNotification(3);">3: Your answer is verified</div></div>
+	<div class="questionBubbleWrapper"><div class="questionBubble" onclick="showNotification(4);">3: Your have been reported</div></div>
+	</div>
+	
+	
+	<div class="appContainer" style="border: 2px solid; border-radius: 25px;">
+		<div id="mainContent" style="height:478px;overflow-y:auto; overflow-x:hidden;">
+			<div id="beforeLogin" style="display: none">
+				<div class="header">
+					<span onclick="gotoDiv('beforeLogin');">Komma</span>
+				</div>
+				<div style="text-align:center;margin-top: 20px"></div>
+				
+					<div class="questionBubbleWrapper"><div class="questionBubble" onclick="gotoDiv('askQuestions')">Contact Sharing (Questions)</div></div>
+					<div class="questionBubbleWrapper"><div class="questionBubble" onclick="gotoDiv('userSearch')">Company Sharing (Call)</div></div>
+					<div style="height: 180px"></div>
+					<div class="questionBubbleWrapper"><div class="questionBubble" onclick="gotoDiv('signUp');">Sign Up</div></div>
+					<div class="questionBubbleWrapper"><div class="questionBubble" onclick="gotoDiv('profile');">Login / Profile</div></div>
+			</div>
+		
+			<div id="userSearch" style="display: none">
+
+				
+				<div class="header">
+					<input type="text" style="width:140px;vertical-align:top" value="Sales" onclick="gotoDiv('userSearch');">
+					<div style="display:inline-block;background-image:url('newMessageImage.png'); width:30px; height:30px; background-repeat: no-repeat; background-size: contain;" onclick="gotoDiv('userSearch');"></div>
+					<div style="display:inline-block;background-image:url('oldMessageImage.png'); width:30px; height:30px; background-repeat: no-repeat; background-size: contain;" onclick="gotoDiv('userList');"></div>
+					
+				</div>
+				<div style="background-image:url('filterImage.png'); width:30px; height:30px; background-repeat: no-repeat; background-size: contain;float:right" onclick="toggleFilterList()"></div>
+				<div id="filterList" style="display:none">
+					<ul>
+						<li>Country</li>
+						<li>Industry</li>
+						<li>Company</li>
+						<li>Year of Experience</li>
+						<li>Job Title</li>
+						<li>Gender</li>
+						<li>Rating</li>
+					</ul>
+				</div>
+				<div class="displayUserDiv" onclick="gotoDiv('viewOthersProfile');">
+					<div class="questionBubbleWrapper"><div class="questionBubble">Leon<br />Company A<br />Years in company: 2<br />Years in industry: 5<br />Rating: ****<br />20min call: $500</div></div>
+					<div class="questionBubbleWrapper"><div class="questionBubble">Korvor<br />Company A<br />Years in company: 2<br />Years in industry: 5<br />Rating: ****<br />20min call: $500</div></div>
+					<div class="questionBubbleWrapper"><div class="questionBubble">Sue<br />Company A<br />Years in company: 2<br />Years in industry: 5<br />Rating: ****<br />20min call: $500</div></div>
+					<div class="questionBubbleWrapper"><div class="questionBubble">Ken<br />Company A<br />Years in company: 2<br />Years in industry: 5<br />Rating: ****<br />20min call: $500</div></div>
+					<div class="questionBubbleWrapper"><div class="questionBubble">Kelly<br />Company A<br />Years in company: 2<br />Years in industry: 5<br />Rating: ****<br />20min call: $500</div></div>
+				</div>
+			</div>
+			
+			<div id="userList" style="display: none">
+
+				
+				<div class="header">
+					<input type="text" style="width:140px;vertical-align:top" value="Sales" onclick="gotoDiv('userSearch');">
+					<div style="display:inline-block;background-image:url('newMessageImage.png'); width:30px; height:30px; background-repeat: no-repeat; background-size: contain;" onclick="gotoDiv('userSearch');"></div>
+					<div style="display:inline-block;background-image:url('oldMessageImage.png'); width:30px; height:30px; background-repeat: no-repeat; background-size: contain;" onclick="gotoDiv('userList');"></div>
+				</div>
+				<div style="background-image:url('filterImage.png'); width:30px; height:30px; background-repeat: no-repeat; background-size: contain;float:right" onclick="toggleFilterList2()"></div>
+				<div id="filterList2" style="display:none">
+					<ul>
+						<li>Country</li>
+						<li>Industry</li>
+						<li>Company</li>
+						<li>Year of Experience</li>
+						<li>Job Title</li>
+						<li>Gender</li>
+						<li>Rating</li>
+					</ul>
+				</div>
+				<div class="displayUserDiv" onclick="gotoDiv('directMessage');">
+					<div class="questionBubbleWrapper"><div class="questionBubble">Sandy<br />Company A<br /></div></div>
+					<div class="questionBubbleWrapper"><div class="questionBubble">Peter<br />Company A<br /></div></div>
+					<div class="questionBubbleWrapper"><div class="questionBubble">Brian<br />Company A<br /></div></div>
+					<div class="questionBubbleWrapper"><div class="questionBubble">Ken<br />Company A<br /></div></div>
+					<div class="questionBubbleWrapper"><div class="questionBubble">Ben<br />Company A<br /></div></div>
+				</div>
+			</div>
+			
+			<div id="profile" style="display: none">
+				<div class="header">
+					<span onclick="gotoDiv('beforeLogin');">Komma</span>
+				</div>
+				<div style="text-align:center;margin-top: 20px"></div>
+			
+					<div style="background-image:url('userHead.png'); width:100px; height:100px; background-repeat: no-repeat; background-size: contain; margin: auto"></div>
+					<div class="questionBubbleWrapper"><div class="questionBubble">Name: Leon Yip</div></div>
+					<div class="questionBubbleWrapper"><div class="questionBubble">Company: ABC Company</div></div>
+					<div class="questionBubbleWrapper"><div class="questionBubble">Years in company: 2</div></div>
+					<div class="questionBubbleWrapper"><div class="questionBubble">Years in industry: 5</div></div>
+					<div class="questionBubbleWrapper"><div class="questionBubble">Balance: $0</div></div>
+					<div class="questionBubbleWrapper"><div class="questionBubble">Questions asked: 0</div></div>
+					<div class="questionBubbleWrapper"><div class="questionBubble">Questions answered: 0</div></div>
+					<div class="questionBubbleWrapper"><div class="questionBubble">Calls initiated: 0</div></div>
+			</div>
+			
+			<div id="signUp" style="display: none">
+				<div class="header">
+					<span onclick="gotoDiv('beforeLogin');">Komma</span>
+				</div>
+				<div style="text-align:center;margin-top: 20px"></div>
+			
+				
+				<div id="signUp-1">
+					<div class="questionBubbleWrapper"><div class="questionBubble">Job role</div></div>
+					<div class="textBubbleWrapper"><div class="textBubbleStyle2 right" onclick="signUpGotoDiv(2);">Sales</div></div>
+					<div class="textBubbleWrapper"><div class="textBubbleStyle2 right" onclick="signUpGotoDiv(2);">Others</div></div>
+				</div>
+				<div id="signUp-2">
+					<div class="questionBubbleWrapper"><div class="questionBubble">Industry</div></div>
+					<div class="textBubbleWrapper"><div class="textBubbleStyle2 right" onclick="signUpGotoDiv(3);">Pharmaceutical</div></div>
+					<div class="textBubbleWrapper"><div class="textBubbleStyle2 right" onclick="signUpGotoDiv(3);">FMCG</div></div>
+					<div class="textBubbleWrapper"><div class="textBubbleStyle2 right" onclick="signUpGotoDiv(3);">Others</div></div>
+				</div>
+				<div id="signUp-3">
+					<div class="questionBubbleWrapper"><div class="questionBubble">How many years have you been working in your current company?</div></div>
+					<div class="textBubbleWrapper"><div class="textBubbleStyle2 right" onclick="signUpGotoDiv(4);">&#60; 1</div></div>
+					<div class="textBubbleWrapper"><div class="textBubbleStyle2 right" onclick="signUpGotoDiv(4);">&#62; 1</div></div>
+					<div class="textBubbleWrapper"><div class="textBubbleStyle2 right" onclick="signUpGotoDiv(4);">&#62; 2</div></div>
+					<div class="textBubbleWrapper"><div class="textBubbleStyle2 right" onclick="signUpGotoDiv(4);">&#62; 3</div></div>
+					<div class="textBubbleWrapper"><div class="textBubbleStyle2 right" onclick="signUpGotoDiv(4);">&#62; 4</div></div>
+				</div>
+				<div id="signUp-4">
+					<div class="questionBubbleWrapper"><div class="questionBubble">How many years have you been working in the current industry?</div></div>
+					<div class="textBubbleWrapper"><div class="textBubbleStyle2 right" onclick="signUpGotoDiv(5);">&#60; 1</div></div>
+					<div class="textBubbleWrapper"><div class="textBubbleStyle2 right" onclick="signUpGotoDiv(5);">&#62; 1</div></div>
+					<div class="textBubbleWrapper"><div class="textBubbleStyle2 right" onclick="signUpGotoDiv(5);">&#62; 2</div></div>
+					<div class="textBubbleWrapper"><div class="textBubbleStyle2 right" onclick="signUpGotoDiv(5);">&#62; 3</div></div>
+					<div class="textBubbleWrapper"><div class="textBubbleStyle2 right" onclick="signUpGotoDiv(5);">&#62; 4</div></div>
+				</div>
+				<div id="signUp-5">
+					<div class="questionBubbleWrapper"><div class="questionBubble">Please list out 3 direct competitors.</div></div>
+					<div class="textBubbleWrapper"><div class="textBubbleStyle2 right">1. </div></div>
+					<div class="textBubbleWrapper"><div class="textBubbleStyle2 right">2. </div></div>
+					<div class="textBubbleWrapper"><div class="textBubbleStyle2 right">3. </div></div>
+					<div class="textBubbleWrapper"><div class="textBubble right" onclick="signUpGotoDiv(6);">Next</div></div>
+				</div>
+				<div id="signUp-6">
+					<div class="questionBubbleWrapper"><div class="questionBubble">Please list out 3 indirect competitors.</div></div>
+					<div class="textBubbleWrapper"><div class="textBubbleStyle2 right">1. </div></div>
+					<div class="textBubbleWrapper"><div class="textBubbleStyle2 right">2. </div></div>
+					<div class="textBubbleWrapper"><div class="textBubbleStyle2 right">3. </div></div>
+					<div class="textBubbleWrapper"><div class="textBubble right" onclick="signUpGotoDiv(7);">Next</div></div>
+				</div>
+				<div id="signUp-7">
+					<div class="questionBubbleWrapper"><div class="questionBubble">Upload name card +</div></div>
+					<div class="questionBubbleWrapper"><div class="questionBubble">Upload credit card +</div></div>
+					<div class="questionBubbleWrapper"><div class="questionBubble">Upload bank account information +</div></div>
+					<div class="textBubbleWrapper"><div class="textBubble right" onclick="signUpGotoDiv(8);">Next</div></div>
+				</div>
+				<div id="signUp-8">
+					<div style="background-image:url('tickImage.png'); width:200px; height:200px; background-repeat: no-repeat; background-size: contain; margin: auto"></div>
+					<div class="questionBubbleWrapper"><div class="questionBubble">Sign Up Successfully</div></div>
+					<div class="textBubbleWrapper"><div class="textBubble right" onclick="gotoDiv('beforeLogin');">Back to Login</div></div>
+				</div>	
+			</div>
+			
+			<script>
+				var signUpGotoDiv = function(number){
+					document.getElementById("signUp-1").style.display="none";
+					document.getElementById("signUp-2").style.display="none";
+					document.getElementById("signUp-3").style.display="none";
+					document.getElementById("signUp-4").style.display="none";
+					document.getElementById("signUp-5").style.display="none";
+					document.getElementById("signUp-6").style.display="none";
+					document.getElementById("signUp-7").style.display="none";
+					document.getElementById("signUp-8").style.display="none";
+					
+					document.getElementById("signUp-"+number).style.display="block";
+				};
+				signUpGotoDiv(1);
+				
+			</script>
+			
+			<div id="askQuestions" style="display: none">
+				<div class="header">
+					<input type="text" style="width:150px">
+				</div>
+				
+				<div style="background-image:url('filterImage.png'); width:30px; height:30px; background-repeat: no-repeat; background-size: contain;float:right" onclick="questionsToggleFilterList()"></div>
+				<div id="questionsFilterList" style="display:none">
+					<ul>
+						<li>Country</li>
+						<li>Industry</li>
+						<li>Company</li>
+						<li>Rating</li>
+					</ul>
+				</div>
+				
+				<div style="text-align:center;margin-top: 20px" onclick="toggleAskQuestion();">
+				New Questions
+				</div>
+				<div id="askQuestionDiv" style="display:none">
+					<input id="askQuestionDivBName" type="text" style="width:90%; margin:2px 10px" placeholder="Business Name">
+					<input id="askQuestionDivLocation" type="text" style="width:90%; margin:2px 10px" placeholder="Location">
+					<input id="askQuestionDivMoreInfo" type="text" style="width:90%; margin:2px 10px" placeholder="More Info">
+					
+					<span style="margin-left:12px">Offer:<span>
+					<div class="textBubbleWrapper">
+						<div id="clickAskQuestionDivOffer200" class="textBubbleStyle2 right" onclick="clickAskQuestionDivOffer(200);">$200</div>
+						<div id="clickAskQuestionDivOffer100" class="textBubbleStyle2 right" onclick="clickAskQuestionDivOffer(100);">$100</div>
+						<div id="clickAskQuestionDivOffer50" class="textBubbleStyle2 right" onclick="clickAskQuestionDivOffer(50);">$50</div>
+					</div>
+					
+					<span style="margin-left:12px">Line-up Appointment:<span>
+					<div class="textBubbleWrapper">
+						<div id="clickAskQuestionDivAppointmentNo" class="textBubbleStyle2 right" onclick="clickAskQuestionDivAppointment(false);">No</div>
+						<div id="clickAskQuestionDivAppointmentYes" class="textBubbleStyle2 right" onclick="clickAskQuestionDivAppointment(true);">Yes</div>
+					</div>
+					<div id="clickAskQuestionDivAppointmentDiv" style="display:none">
+						<span style="margin-left:12px">Offer:<span>
+						<div class="textBubbleWrapper">
+							<div id="clickAskQuestionDivAppointmentOffer600" class="textBubbleStyle2 right" onclick="clickAskQuestionDivAppointmentOffer(600);">$600</div>
+							<div id="clickAskQuestionDivAppointmentOffer300" class="textBubbleStyle2 right" onclick="clickAskQuestionDivAppointmentOffer(300);">$300</div>
+						</div>
+					</div>
+					<div class="textBubbleWrapper"><div class="textBubble right" onclick="postQuestion();">Post</div></div>
+				</div>
+				
+				<div id="questionsListDiv" onclick="gotoDiv('answerQuestions');">
+					<div class="questionBubbleWrapper"><div class="questionBubble">Clinic XX owner contact<br />$100<br />Line-up Appointment: No<br /><span style="font-size: 14px">Asked by Member 001 on 2/10/21</span></div></div>
+					<div class="questionBubbleWrapper"><div class="questionBubble">Shop AB owner contact<br />$50<br />Line-up Appointment: No<br /><span style="font-size: 14px">Asked by Member 001 on 2/10/21</span></div></div>
+					<div class="questionBubbleWrapper"><div class="questionBubble">Store Z owner contact<br />$200<br />Line-up Appointment: No<br /><span style="font-size: 14px">Asked by Member 001 on 2/10/21</span></div></div>
+					<div class="questionBubbleWrapper"><div class="questionBubble">Cafe Abc owner contact<br />$200<br />Line-up Appointment: Yes<br />Offer: $600<span style="font-size: 14px">Asked by Member 002 on 3/10/21</span></div></div>
+				</div>
+				
+				<div style="height:20px;width:100%; text-align:center; background-color:#ccc; padding:12px 0" onclick="toggleAskQuestion();"><center>Want to pay for a contact?</center></div>
+				
+			</div>
+			
+			<script>
+				var askQuestionDivOffer=50,askQuestionDivAppointment=false,askQuestionDivAppointmentOffer=300;
+				var postQuestion = function(){
+					document.getElementById("askQuestionDiv").style.display="none";
+					
+					newPost = '<div class="questionBubbleWrapper"><div class="questionBubble">' + document.getElementById("askQuestionDivBName").value + ' owner contact<br />$' + askQuestionDivOffer + '<br />Line-up Appointment: ';
+					if (askQuestionDivAppointment)
+						newPost +=  'Yes<br />Offer: ' + askQuestionDivAppointmentOffer
+					else
+						newPost += 'No'
+						
+					newPost += '<br /><span style="font-size: 14px">Asked by you today</span></div></div>'
+					
+					document.getElementById("questionsListDiv").innerHTML=newPost + document.getElementById("questionsListDiv").innerHTML;
+					
+					document.getElementById("askQuestionDivBName").value = '';
+					document.getElementById("askQuestionDivLocation").value = '';
+					document.getElementById("askQuestionDivMoreInfo").value = '';
+					
+					clickAskQuestionDivOffer(50);
+					clickAskQuestionDivAppointment(false);
+					clickAskQuestionDivAppointmentOffer(300);
+				}
+				
+				var clickAskQuestionDivOffer = function(value){
+					askQuestionDivOffer = value;
+					
+					document.getElementById("clickAskQuestionDivOffer50").className ="textBubbleStyle2 right";
+					document.getElementById("clickAskQuestionDivOffer100").className ="textBubbleStyle2 right";
+					document.getElementById("clickAskQuestionDivOffer200").className ="textBubbleStyle2 right";
+					
+					if (value == 50|| value == 100 || value == 200)
+						document.getElementById("clickAskQuestionDivOffer"+value).className ="textBubbleStyle2 right selected";
+				}
+				var clickAskQuestionDivAppointment = function(value){
+					askQuestionDivAppointment = value;
+					
+					document.getElementById("clickAskQuestionDivAppointmentYes").className ="textBubbleStyle2 right";
+					document.getElementById("clickAskQuestionDivAppointmentNo").className ="textBubbleStyle2 right";
+					
+					if (value == true){
+						document.getElementById("clickAskQuestionDivAppointmentYes").className ="textBubbleStyle2 right selected";
+						document.getElementById("clickAskQuestionDivAppointmentDiv").style.display="block";
+					}
+					else{
+						document.getElementById("clickAskQuestionDivAppointmentNo").className ="textBubbleStyle2 right selected";
+						document.getElementById("clickAskQuestionDivAppointmentDiv").style.display="none";
+					}
+				}
+				var clickAskQuestionDivAppointmentOffer = function(value){
+					askQuestionDivAppointmentOffer = value;
+					
+					document.getElementById("clickAskQuestionDivAppointmentOffer300").className ="textBubbleStyle2 right";
+					document.getElementById("clickAskQuestionDivAppointmentOffer600").className ="textBubbleStyle2 right";
+					
+					if (value == 300|| value == 600)
+						document.getElementById("clickAskQuestionDivAppointmentOffer"+value).className ="textBubbleStyle2 right selected";
+				}
+				clickAskQuestionDivOffer(50);
+				clickAskQuestionDivAppointment(false);
+				clickAskQuestionDivAppointmentOffer(300);
+				
+			</script>
+			
+			<div id="answerQuestions" style="display: none">
+				<div class="header">
+					<input type="text" style="width:150px" onclick="gotoDiv('userSearch');">
+				</div>
+				
+				<div class="questionBubbleWrapper"><div class="questionBubble">Clinic XX owner contact<br />$100<br /><span style="font-size: 14px">Asked by Member 001 on 2/10/21</span></div></div>
+				<input type="text" style="width:90%; margin:2px 10px" placeholder="Owner Name">
+				<input type="text" style="width:90%; margin:2px 10px" placeholder="Contact Number">
+				<input type="text" style="width:90%; margin:2px 10px" placeholder="More Info">
+				<div class="textBubbleWrapper"><div class="textBubbleStyle2 right" onclick="signUpGotoDiv(3);">Add attachments</div></div>
+				<div class="textBubbleWrapper"><div class="textBubble right" onclick="gotoDiv('submitedQuestions');">Submit</div></div>
+			</div>
+			
+			<div id="submitedQuestions" style="display: none">
+				<div class="header">
+					<input type="text" style="width:150px" onclick="gotoDiv('userSearch');">
+				</div>
+				
+				<div style="background-image:url('tickImage.png'); width:200px; height:200px; background-repeat: no-repeat; background-size: contain; margin: auto"></div>
+				<div class="questionBubbleWrapper"><div class="questionBubble">Answer submitted successfully</div></div>
+				<div class="textBubbleWrapper"><div class="textBubble right" onclick="gotoDiv('askQuestions');">Back</div></div>
+			</div>
+			
+			<div id="viewOthersProfile" style="display: none">
+				<div class="header">
+					
+				</div>
+				<div class="displayUserDiv" onclick="gotoDiv('viewOthersProfile');">
+					<div class="questionBubbleWrapper"><div class="questionBubble">Member #1<br />Company A<br />Years in company: 2<br />Years in industry: 5<br />Rating: ****<br />20min call: $500</div></div>
+				</div>
+				
+				<div onclick="gotoDiv('pendingAccept');">
+					<center>Send an invitation to chat</center>
+				</div>
+			</div>
+			<div id="pendingAccept" style="display: none">
+				<div class="header">
+					
+				</div>
+				<div style="background-image:url('tickImage.png'); width:200px; height:200px; background-repeat: no-repeat; background-size: contain; margin: auto"></div>
+				<div class="questionBubbleWrapper"><div class="questionBubble">Invitation sent successfully.</div></div>
+				<div class="textBubbleWrapper"><div class="textBubble right" onclick="gotoDiv('beforeLogin');">Continue</div></div>
+			</div>
+			<div id="chatNotification" style="display: none">
+				<div class="header">
+					
+				</div>
+				<div class="questionBubbleWrapper" id="notification-1" style="display:none"><div class="questionBubble" onclick="gotoDiv('directMessage')">Member 002 wants to explore more with you.</div></div>
+				<div class="questionBubbleWrapper" id="notification-2" style="display:none"><div class="questionBubble" onclick="gotoDiv('viewAnswer')">Member 004 replied to your question.</div></div>
+				<div class="questionBubbleWrapper" id="notification-3" style="display:none"><div class="questionBubble">Member 001 verified your answer. You have earned $100.</div></div>
+				<div class="questionBubbleWrapper" id="notification-4" style="display:none"><div class="questionBubble" onclick="gotoDiv('answerReportedByOthers')">You have been reported by Member 002.</div></div>
+			</div>
+			
+			<div id="answerReportedByOthers" style="display: none">
+				<div class="header">
+					
+				</div>
+				<div class="questionBubbleWrapper"><div class="questionBubble">Clinic XX owner contact<br />$100<br /><span style="font-size: 14px">Asked by Member 002 on 2/10/21</span></div></div>
+				<div class="questionBubbleWrapper"><div class="questionBubble">Name : LauKongWa<br />Contact 91669237<br /><span style="font-size: 14px">Replied by you on 2/10/21</span></div></div>
+				<div class="questionBubbleWrapper"><div class="questionBubble">Your answer is reported by Member 002 and is flagged as incorrect.</span></div></div>
+				<div class="textBubbleWrapper"><div class="textBubble right" onclick="gotoDiv('disagreeReport');">Disagree</div><div class="textBubble right" onclick="gotoDiv('agreeReport');">Agree</div></div>
+			</div>
+			
+			<div id="disagreeReport" style="display: none">
+				<div class="header">
+					
+				</div>
+				<div class="questionBubbleWrapper"><div class="questionBubble">Please provide further information.</div></div>
+				<div class="textBubbleWrapper"><div class="textBubbleStyle2 right" onclick="signUpGotoDiv(3);">Upload</div></div>
+				<div class="textBubbleWrapper"><div class="textBubble right" onclick="gotoDiv('appealMessage');">Continue</div></div>
+			</div>
+			
+			<div id="agreeReport" style="display: none">
+				<div class="header">
+					
+				</div>
+				<div class="questionBubbleWrapper"><div class="questionBubble">You have been suspended for 14 days.</div></div>
+				<div class="textBubbleWrapper"><div class="textBubble right" onclick="gotoDiv('beforeLogin');">Continue</div></div>
+			</div>
+			
+			<div id="appealMessage" style="display: none">
+				<div class="header">
+					
+				</div>
+				<div style="background-image:url('tickImage.png'); width:200px; height:200px; background-repeat: no-repeat; background-size: contain; margin: auto"></div>
+				<div class="questionBubbleWrapper"><div class="questionBubble">We have received your appeal. We are going to discuss with Member 002 and update you shortly.</div></div>
+				<div class="textBubbleWrapper"><div class="textBubble right" onclick="gotoDiv('beforeLogin');">Continue</div></div>
+			</div>
+			
+			<div id="viewAnswer" style="display: none">
+				<div class="header">
+					
+				</div>
+				<div class="questionBubbleWrapper"><div class="questionBubble">Clinic XX owner contact<br />$100<br /><span style="font-size: 14px">Asked by you on 2/10/21</span></div></div>
+				<div class="questionBubbleWrapper"><div class="questionBubble">Name : LauKongWa<br />Contact 91669237<br /><span style="font-size: 14px">Replied by Member 004 on 2/10/21</span></div></div>
+				<div class="textBubbleWrapper"><div class="textBubble right" onclick="gotoDiv('reportedAnswer');">Report</div><div class="textBubble right" onclick="gotoDiv('verifiedAnswer');">Verify</div></div>
+			</div>
+			
+			<div id="reportedAnswer" style="display: none">
+				<div class="header">
+					
+				</div>
+				<div class="questionBubbleWrapper"><div class="questionBubble">Reasons for reporting:</div></div>
+				<div class="textBubbleWrapper"><div class="textBubbleStyle2 right" onclick="gotoDiv('reportSent');">Incorrect Number</div></div>
+				<div class="textBubbleWrapper"><div class="textBubbleStyle2 right" onclick="gotoDiv('reportSent');">Incorrect Name</div></div>
+				<div class="textBubbleWrapper"><div class="textBubbleStyle2 right" onclick="gotoDiv('reportSent');">Others</div></div>
+			</div>
+			
+			<div id="reportSent" style="display: none">
+				<div class="header">
+					
+				</div>
+				<div style="background-image:url('tickImage.png'); width:200px; height:200px; background-repeat: no-repeat; background-size: contain; margin: auto"></div>
+				<div style="margin: 0 10px">Reported successfully. We will follow up and get back to you soon.</div>
+				<div class="textBubbleWrapper"><div class="textBubble right" onclick="gotoDiv('beforeLogin');">Continue</div></div>
+			</div>
+			
+			<div id="verifiedAnswer" style="display: none">
+				<div class="header">
+					
+				</div>
+				<div style="background-image:url('tickImage.png'); width:200px; height:200px; background-repeat: no-repeat; background-size: contain; margin: auto"></div>
+				<div style="margin: 0 10px">You have verified the answer by Member 002.</div>
+				<div class="textBubbleWrapper"><div class="textBubble right" onclick="gotoDiv('beforeLogin');">Continue</div></div>
+			</div>
+			
+			<div id="directMessage" style="display: none">
+				<div class="header">
+
+				</div>
+				<div style="height: 320px;overflow-y:auto">
+					<div class="textBubbleWrapper"><div class="textBubble left" onclick="actionShow();">Hello!</div></div>
+					<div id="action1" style="display:none">
+						<div class="textBubbleWrapper"><div class="textBubble right">Nice to meet you!</div></div>
+						<div class="textBubbleWrapper"><div class="textBubble left">I would like to ask this question!</div></div>
+						<div class="textBubbleWrapper"><div class="textBubble left">So, I want to know the culture of this company.</div></div>
+						<div class="textBubbleWrapper"><div class="textBubble right">Maybe we can call.</div></div>
+					</div>
+				</div>
+				<div style="background-color: #666;width:100%; height:90px;">
+					<input type="text" style="width:70%; height:60px; margin:15px 10px"><div style="display:inline-block; color:#fff;vertical-align:middle">Call</br >Refer</div>
+				</div>
+			</div>
+		</div>
+		<div style="margin-left:calc(50% - 30px);">
+			<div id="bottomButtons" onclick="gotoDiv('beforeLogin')" style="display:inline-block;height:60px;width: 60px;background-color:#eee;color:#000;border: 1px solid #000;border-radius: 50px">
+				<div style="padding:20px 10px">Home</div>
+			</div>
+			<span onclick="gotoDiv('chatNotification');">Notification</span>
+		</div>
+		
+	</div>
+	
+	
+	
+	
+	</body>
+</html>
+<script>
+				var gotoDiv = function(name){
+					document.getElementById("beforeLogin").style.display="none";
+					document.getElementById("profile").style.display="none";
+					document.getElementById("signUp").style.display="none";
+					document.getElementById("askQuestions").style.display="none";
+					document.getElementById("userSearch").style.display="none";
+					document.getElementById("userList").style.display="none";
+					document.getElementById("directMessage").style.display="none";
+					document.getElementById("pendingAccept").style.display="none";
+					document.getElementById("viewOthersProfile").style.display="none";
+					document.getElementById("chatNotification").style.display="none";
+					document.getElementById("answerQuestions").style.display="none";
+					document.getElementById("submitedQuestions").style.display="none";
+					document.getElementById("reportedAnswer").style.display="none";	
+					document.getElementById("verifiedAnswer").style.display="none";
+					document.getElementById("viewAnswer").style.display="none";	
+					document.getElementById("reportSent").style.display="none";
+					document.getElementById("answerReportedByOthers").style.display="none";	
+					document.getElementById("agreeReport").style.display="none";	
+					document.getElementById("disagreeReport").style.display="none";	
+					document.getElementById("appealMessage").style.display="none";	
+					
+					
+					
+					
+					
+					document.getElementById(name).style.display="block";
+				};
+				gotoDiv("beforeLogin");
+				
+				var toggleFilterList = function(){
+					if (document.getElementById("filterList").style.display == 'none')
+						document.getElementById("filterList").style.display = 'block';
+					else
+						document.getElementById("filterList").style.display = 'none';
+				};
+				
+				var questionsToggleFilterList = function(){
+					if (document.getElementById("questionsFilterList").style.display == 'none')
+						document.getElementById("questionsFilterList").style.display = 'block';
+					else
+						document.getElementById("questionsFilterList").style.display = 'none';
+				};
+				
+				var toggleFilterList2 = function(){
+					if (document.getElementById("filterList2").style.display == 'none')
+						document.getElementById("filterList2").style.display = 'block';
+					else
+						document.getElementById("filterList2").style.display = 'none';
+				};
+				
+				var questionsToggleFilterList = function(){
+					if (document.getElementById("questionsFilterList").style.display == 'none')
+						document.getElementById("questionsFilterList").style.display = 'block';
+					else
+						document.getElementById("questionsFilterList").style.display = 'none';
+				};
+				
+				var toggleAskQuestion = function(){
+					if (document.getElementById("askQuestionDiv").style.display == 'none')
+						document.getElementById("askQuestionDiv").style.display = 'block';
+					else
+						document.getElementById("askQuestionDiv").style.display = 'none';
+				};
+				
+				var actionShow = function(){
+					document.getElementById("action1").style.display = 'block';
+				};
+				
+				
+				//show notifications
+				var showNotification = function(number){
+					if (number == 0){
+						document.getElementById("notification-1").style.display = 'block';
+						document.getElementById("notification-2").style.display = 'block';
+						document.getElementById("notification-3").style.display = 'block';
+						document.getElementById("notification-4").style.display = 'block';
+					}
+					else if (number == 1){
+						document.getElementById("notification-1").style.display = 'block';
+					}
+					else if (number == 2){
+						document.getElementById("notification-2").style.display = 'block';
+					}
+					else if (number == 3){
+						document.getElementById("notification-3").style.display = 'block';
+					}
+					else if (number == 4){
+						document.getElementById("notification-4").style.display = 'block';
+					}
+				};
+				
+			</script>
+			
+			
+			
